@@ -1,4 +1,4 @@
-# Hidden Baguette (bag8-site)
+# Hidden Baguette (hidden-site)
 
 Présentation de la corporation Hidden Baguette pour le jeu Eve Online
 
@@ -24,4 +24,3 @@ quasar build
 
 ### Customize the configuration
 See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
-"# hidden-site" 
