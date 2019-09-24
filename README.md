@@ -1,6 +1,7 @@
 # Hidden Baguette (hidden-site)
 
 Présentation de la corporation Hidden Baguette pour le jeu Eve Online
+Résultat sur le site [bag8.netlify.com](https://bag8.netlify.com/)
 
 ## Install the dependencies
 ```bash

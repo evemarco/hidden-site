@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     log (text) {
-      console.log(text)
+      // console.log(text)
     }
   },
   created () {
@@ -110,7 +110,7 @@ export default {
     })
   },
   mounted () {
-    console.log(FullPageScroll)
+    // console.log(FullPageScroll)
     let fps
     window.addEventListener('load', function () {
       fps = new this.FullPageScroll('wrap')
