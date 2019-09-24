@@ -2,14 +2,15 @@
   q-layout(view="lHh Lpr lFf")
     q-header(elevated style="background-color: rgba(0, 0, 0, 0.8)")
       q-toolbar(style="background-color: rgba(0, 0, 0, 0)")
-        q-toolbar-title(style="font-family: 'Croissant One', cursive;") Hidden Baguette
-        q-btn(flat).on-left Page 1
-        q-btn(flat).on-left Page 2
-        q-btn(flat).on-left Page 3
-        q-btn(flat).on-left Page 4
+        q-btn(flat no-caps dense size="lg" style="font-family: 'Croissant One', cursive;" @click="$root.$emit('goToSlide', 0)" label="Hidden Baguette")
+        q-btn(flat no-caps @click="$root.$emit('goToSlide', 1)").on-right Page 1
+        q-btn(flat no-caps @click="$root.$emit('goToSlide', 2)").on-right Page 2
+        q-btn(flat no-caps @click="$root.$emit('goToSlide', 3)").on-right Page 3
+        q-btn(flat no-caps @click="$root.$emit('goToSlide', 4)").on-right Page 4
         q-space
-        q-btn(flat @click="openURL('https://forum.hidden-baguette.fr')").on-left Forum
-        div(style="font-family: eve") Eve Online
+        q-btn(flat no-caps icon="img:https://image.flaticon.com/icons/svg/2111/2111370.svg" label="Discord" @click="openURL('https://discord.gg/cvunf46')").on-left
+        q-btn(flat no-caps icon="chat" @click="openURL('https://forum.hidden-baguette.fr')" label="Forum").on-left
+        q-btn(flat no-caps @click="openURL('https://www.eveonline.com/fr/signup?invc=bf6cfbe6-d148-4ac6-ae98-cfd1494b1215')" style="font-family: eve" label="Eve Online")
     q-page-container
       router-view
 </template>
