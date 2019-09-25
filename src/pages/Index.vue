@@ -6,15 +6,15 @@
       .dark-background
     //- controls:0, showinfo:0, rel: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, loop: 1 }") cc_lang_pref: 'fr',
     #wrap.text-white
-      section
-        transition(appear enter-active-class="animated bounceInLeft delay-2s slow")
-          h1.text-center(key="h1" style="font-family: 'Croissant One', cursive; padding-top: 10%;").no-wrap Hidden Baguette
-        transition(appear enter-active-class="animated bounceInRight delay-2s slow")
-          h2.text-center(key="h2") Corporation francophone
-            br
-            | Eve Online
-            br
-            | en wormhole space
+      section.flex.flex-center
+        .self-center(style="margin-top: -50px;")
+          transition(appear enter-active-class="animated bounceInLeft")
+            .text-center(key="h1" style="font-family: 'Croissant One', cursive; font-size: 8vmin;").row.full-width
+              .fit.row.justify-center.items-center.content-center
+                img(key="img" :src="image_logo" style="max-width: 16vmin; max-height: 16vmin;").col-shrink.on-left.animated.myanim.pulse
+                span(style="word-wrap: break-word;").col-shrink {{ nom_corpo }}
+          transition(appear enter-active-class="animated bounceInRight")
+            .text-center(key="h2" style="font-size: 5vmin;" v-html="sous_titre")
       section.text-white
         h2.text-center Page 1
       section.text-white
@@ -82,18 +82,40 @@ section {
   font-size: 10vmin;
   padding: 1em;
 }
+.myanim {
+  animation-duration: 4s;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+}
 </style>
 
 <script>
 import webFont from 'webfontloader'
 import * as FullPageScroll from 'responsive-fullpage-scroll/dist/fullpage-scroll'
+import { DeliveryClient } from '@kentico/kontent-delivery'
+
+const deliveryClient = new DeliveryClient({
+  projectId: '66e72765-32bf-0056-dae3-bb6d6dc6131f',
+  previewApiKey: 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogIjk0ZWZmMGJkNzJmOTQ0OTliYmVhNjYwN2E2MWYxY2U0IiwNCiAgImlhdCI6ICIxNTY5MzIxOTMyIiwNCiAgImV4cCI6ICIxOTE0OTIxOTMyIiwNCiAgInByb2plY3RfaWQiOiAiNjZlNzI3NjUzMmJmMDA1NmRhZTNiYjZkNmRjNjEzMWYiLA0KICAidmVyIjogIjEuMC4wIiwNCiAgImF1ZCI6ICJwcmV2aWV3LmRlbGl2ZXIua2VudGljb2Nsb3VkLmNvbSINCn0.OdNPgrvPBeRMiIT1vCy0LphwVcFhCbsB2otm9GT302M',
+  globalQueryConfig: {
+    usePreviewMode: true // Queries the Delivery Preview API.
+  }
+})
 
 export default {
   name: 'PageIndex',
   data () {
     return {
       url: window.location.href,
-      FullPageScroll: FullPageScroll
+      FullPageScroll: FullPageScroll,
+      nom_corpo: '',
+      sous_titre: '',
+      image_logo: '',
+      bouton_presentation: '',
+      bouton_activites: '',
+      bouton_membres: '',
+      bouton_recrutement: '',
+      bouton_outils: ''
     }
   },
   methods: {
@@ -107,6 +129,14 @@ export default {
         families: ['Croissant One'],
         text: 'Hidden Baguette'
       }
+    })
+    deliveryClient.items().type('site').toPromise().then(response => {
+      let items = response.items[0]
+      this.$root.$emit('site', items)
+      this.nom_corpo = items.nom_corpo.value
+      this.sous_titre = items.sous_titre.value
+      this.image_logo = items.image_logo.value[0].url
+      // console.log(response)
     })
   },
   mounted () {
