@@ -2,8 +2,8 @@
   //- .flex.flex-center
   div(style="overflow: hidden;")
     .video-background
-      youtube(video-id="sPFII3ozSHI" host="http://www.youtube-nocookie.com" :mute="true" player-width="100%" player-height="100%" @ready="(player) => log(player)" @ended="(player) => player.target.playVideo()" :player-vars="{ autoplay: 1, loop: 1, controls: 0, showinfo:0, rel: 0, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, mute: 1, origin: '*' }").video-foreground
-      .dark-background
+      youtube(:video-id="id_youtube" host="http://www.youtube-nocookie.com" :mute="true" player-width="100%" player-height="100%" @ready="(player) => ytReady(player)" @ended="(player) => player.target.playVideo()" :player-vars="{ autoplay: 1, loop: 1, controls: 0, showinfo:0, rel: 0, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, mute: 1, origin: '*' }").video-foreground
+      .dark-background(:style="transparence > 0 ? `background-color: rgba(0, 0, 0, ${transparence});` : ''")
     //- controls:0, showinfo:0, rel: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, loop: 1 }") cc_lang_pref: 'fr',
     #wrap.text-white
       section.flex.flex-center
@@ -16,13 +16,15 @@
           transition(appear enter-active-class="animated bounceInRight")
             .text-center(key="h2" style="font-size: 5vmin;" v-html="sous_titre")
       section.text-white
-        h2.text-center Page 1
+        h2.text-center {{ bouton_presentation }}
       section.text-white
-        h2.text-center Page 2
+        h2.text-center {{ bouton_activites }}
       section.text-white
-        h2.text-center Page 3
+        h2.text-center {{ bouton_membres }}
       section.text-white
-        h2.text-center Page 4
+        h2.text-center {{ bouton_recrutement }}
+      section.text-white
+        h2.text-center {{ bouton_outils }}
 </template>
 
 <style>
@@ -115,12 +117,19 @@ export default {
       bouton_activites: '',
       bouton_membres: '',
       bouton_recrutement: '',
-      bouton_outils: ''
+      bouton_outils: '',
+      id_youtube: '',
+      transparence: 0
     }
   },
   methods: {
     log (text) {
       // console.log(text)
+    },
+    ytReady (player) {
+      // this.$root.$on('youtube', (id) => {
+      //   player.loadVideoById({ 'videoId': id, 'startSeconds': 5, 'endSeconds': 60 })
+      // })
     }
   },
   created () {
@@ -136,7 +145,14 @@ export default {
       this.nom_corpo = items.nom_corpo.value
       this.sous_titre = items.sous_titre.value
       this.image_logo = items.image_logo.value[0].url
-      // console.log(response)
+      this.id_youtube = items.id_youtube.value
+      this.transparence = items.transparence.value
+      this.bouton_presentation = items.bouton_presentation.value
+      this.bouton_activites = items.bouton_activites.value
+      this.bouton_membres = items.bouton_membres.value
+      this.bouton_recrutement = items.bouton_recrutement.value
+      this.bouton_outils = items.bouton_outils.value
+      // console.log(items)
     })
   },
   mounted () {
