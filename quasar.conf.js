@@ -47,7 +47,8 @@ module.exports = function (ctx) {
         'QItemSection',
         'QItemLabel',
         'QSpace',
-        'QSpinner'
+        'QSpinner',
+        'QImg'
       ],
 
       directives: [

@@ -26,8 +26,10 @@
         .self-center(style="margin-top: -50px;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_membres }}
       section.text-white
-        .self-center(style="margin-top: -50px;")
-          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_recrutement }}
+        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
+          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ recrutement_titre }}
+          q-img(:src="recrutement_image_de_fond")
+            div(:style="`font-family: ${font_texte_normal}`" v-html="recrutement_descriptif").size-texte.absolute-full.text-subtitle2.flex.flex-center
       section.text-white
         .self-center(style="margin-top: -50px;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_outils }}
@@ -180,6 +182,22 @@ export default {
     deliveryClient.items().type('site').toPromise().then(response => {
       let items = response.items[0]
       this.$root.$emit('site', items)
+      this.font_bouton = items.font_bouton.value
+      this.font_logo = items.font_logo.value
+      this.font_sous_titre = items.font_sous_titre.value
+      this.font_texte_normal = items.font_texte_normal.value
+      let listeFonts = []
+      if (this.font_bouton) listeFonts.push(this.font_bouton)
+      if (this.font_logo) listeFonts.push(this.font_logo)
+      if (this.font_sous_titre) listeFonts.push(this.font_sous_titre)
+      if (this.font_texte_normal) listeFonts.push(this.font_texte_normal)
+      if (listeFonts.length > 0) {
+        webFont.load({
+          google: {
+            families: listeFonts
+          }
+        })
+      }
       this.nom_corpo = items.nom_corpo.value
       this.sous_titre = items.sous_titre.value
       this.image_logo = items.image_logo.value[0].url
@@ -196,20 +214,9 @@ export default {
       this.bouton_membres = items.bouton_membres.value
       this.bouton_recrutement = items.bouton_recrutement.value
       this.bouton_outils = items.bouton_outils.value
-      this.font_bouton = items.font_bouton.value
-      this.font_logo = items.font_logo.value
-      this.font_sous_titre = items.font_sous_titre.value
-      this.font_texte_normal = items.font_texte_normal.value
-      let listeFonts = []
-      if (this.font_bouton) listeFonts.push(this.font_bouton)
-      if (this.font_logo) listeFonts.push(this.font_logo)
-      if (this.font_sous_titre) listeFonts.push(this.font_sous_titre)
-      if (this.font_texte_normal) listeFonts.push(this.font_texte_normal)
-      webFont.load({
-        google: {
-          families: listeFonts
-        }
-      })
+      this.recrutement_titre = items.diapo__titre.value
+      this.recrutement_descriptif = items.diapo__descriptif.value
+      this.recrutement_image_de_fond = items.diapo__image_de_fond.value[0].url
       // console.log(items)
     })
   },
