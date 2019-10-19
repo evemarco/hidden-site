@@ -28,8 +28,8 @@
       section.text-white
         .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ recrutement_titre }}
-          q-img(:src="recrutement_image_de_fond" style="height: calc(72vh - 50px);")
-            div(:style="`font-family: ${font_texte_normal};`" v-html="recrutement_descriptif").size-texte.absolute-full.text-subtitle2.flex.flex-center
+          q-img(:src="recrutement_image_de_fond" style="height: calc(72vh - 50px);" position="center center")
+            div(:style="`font-family: ${font_texte_normal};`" v-html="recrutement_descriptif").size-texte.absolute-full.text-subtitle2.flex.flex-center.column
       section.text-white
         .self-center(style="margin-top: -50px;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_outils }}
