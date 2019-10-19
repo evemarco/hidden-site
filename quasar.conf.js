@@ -46,7 +46,8 @@ module.exports = function (ctx) {
         'QItem',
         'QItemSection',
         'QItemLabel',
-        'QSpace'
+        'QSpace',
+        'QSpinner'
       ],
 
       directives: [
@@ -55,7 +56,8 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'Meta'
       ]
     },
 

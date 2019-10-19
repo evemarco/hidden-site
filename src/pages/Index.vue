@@ -2,29 +2,35 @@
   //- .flex.flex-center
   div(style="overflow: hidden;")
     .video-background
-      youtube(:video-id="id_youtube" host="http://www.youtube-nocookie.com" :mute="true" player-width="100%" player-height="100%" @ready="(player) => ytReady(player)" @ended="(player) => player.target.playVideo()" :player-vars="{ autoplay: 1, loop: 1, controls: 0, showinfo:0, rel: 0, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, mute: 1, origin: '*' }").video-foreground
+      youtube(v-if="id_youtube" :video-id="id_youtube" host="http://www.youtube-nocookie.com" :mute="true" player-width="100%" player-height="100%" @ready="(player) => ytReady(player)" @ended="(player) => ytReplay(player)" :player-vars="{ autoplay: 1, loop: 1, start: debut, end: fin, controls: 0, showinfo:0, rel: 0, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, mute: 1, origin: '*' }").video-foreground
       .dark-background(:style="transparence > 0 ? `background-color: rgba(0, 0, 0, ${transparence});` : ''")
     //- controls:0, showinfo:0, rel: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, loop: 1 }") cc_lang_pref: 'fr',
     #wrap.text-white
       section.flex.flex-center
         .self-center(style="margin-top: -50px;")
           transition(appear enter-active-class="animated bounceInLeft")
-            .text-center(key="h1" style="font-family: 'Croissant One', cursive; font-size: 8vmin;").row.full-width
+            .text-center(key="h1" :style="font_logo ? `font-family: ${font_logo}, cursive;` : ''").row.full-width.size-titre
               .fit.row.justify-center.items-center.content-center
                 img(key="img" :src="image_logo" style="max-width: 16vmin; max-height: 16vmin;").col-shrink.on-left.animated.myanim.pulse
                 span(style="word-wrap: break-word;").col-shrink {{ nom_corpo }}
           transition(appear enter-active-class="animated bounceInRight")
-            .text-center(key="h2" style="font-size: 5vmin;" v-html="sous_titre")
+            .text-center(key="h2" :style="font_sous_titre ? `font-family: ${font_sous_titre}` : ''" v-html="sous_titre").size-sous-titre
       section.text-white
-        h2.text-center {{ bouton_presentation }}
+        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
+          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_presentation }}
+          div(:style="`font-family: ${font_texte_normal}`" v-html="presentation").size-texte
       section.text-white
-        h2.text-center {{ bouton_activites }}
+        .self-center(style="margin-top: -50px;")
+          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_activites }}
       section.text-white
-        h2.text-center {{ bouton_membres }}
+        .self-center(style="margin-top: -50px;")
+          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_membres }}
       section.text-white
-        h2.text-center {{ bouton_recrutement }}
+        .self-center(style="margin-top: -50px;")
+          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_recrutement }}
       section.text-white
-        h2.text-center {{ bouton_outils }}
+        .self-center(style="margin-top: -50px;")
+          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_outils }}
 </template>
 
 <style>
@@ -89,12 +95,22 @@ section {
   animation-delay: 2s;
   animation-iteration-count: infinite;
 }
+.size-titre {
+  font-size: 8vmin;
+}
+.size-sous-titre {
+  font-size: 5vmin;
+}
+.size-texte {
+  font-size: 2vmin;
+}
 </style>
 
 <script>
 import webFont from 'webfontloader'
 import * as FullPageScroll from 'responsive-fullpage-scroll/dist/fullpage-scroll'
 import { DeliveryClient } from '@kentico/kontent-delivery'
+import { VueFlux, FluxCaption } from 'vue-flux'
 
 const deliveryClient = new DeliveryClient({
   projectId: '66e72765-32bf-0056-dae3-bb6d6dc6131f',
@@ -106,6 +122,10 @@ const deliveryClient = new DeliveryClient({
 
 export default {
   name: 'PageIndex',
+  components: {
+    VueFlux,
+    FluxCaption
+  },
   data () {
     return {
       url: window.location.href,
@@ -114,46 +134,90 @@ export default {
       sous_titre: '',
       image_logo: '',
       bouton_presentation: '',
+      presentation: '',
       bouton_activites: '',
       bouton_membres: '',
       bouton_recrutement: '',
       bouton_outils: '',
+      font_bouton: '',
+      font_logo: '',
+      font_sous_titre: '',
+      font_texte_normal: '',
       id_youtube: '',
-      transparence: 0
+      transparence: 0,
+      debut: 0,
+      fin: null,
+      player: {}
     }
   },
   methods: {
     log (text) {
       // console.log(text)
     },
+    ytReplay (player) {
+      // console.log(player)
+      player.target.seekTo(this.debut)
+      player.target.playVideo()
+    },
     ytReady (player) {
+      // console.log(player)
+      this.player = player.target
+      // this.player.loadVideoById({ 'videoId': this.id_youtube, 'startSeconds': this.debut, 'endSeconds': this.fin })
+      // console.log('player', this.player)
       // this.$root.$on('youtube', (id) => {
-      //   player.loadVideoById({ 'videoId': id, 'startSeconds': 5, 'endSeconds': 60 })
+      //   player.loadVideoById({ 'videoId': id, 'startSeconds': this.debut, 'endSeconds': this.fin })
+      //   console.log(player)
       // })
     }
   },
   created () {
-    webFont.load({
-      google: {
-        families: ['Croissant One'],
-        text: 'Hidden Baguette'
-      }
-    })
+    // webFont.load({
+    //   google: {
+    //     families: ['Croissant One']
+    //     // text: 'Hidden Baguette'
+    //   }
+    // })
     deliveryClient.items().type('site').toPromise().then(response => {
       let items = response.items[0]
       this.$root.$emit('site', items)
       this.nom_corpo = items.nom_corpo.value
       this.sous_titre = items.sous_titre.value
       this.image_logo = items.image_logo.value[0].url
+      this.debut = items.debut.value
+      this.fin = items.fin.value
       this.id_youtube = items.id_youtube.value
+      // this.player.loadVideoById({ 'videoId': this.id_youtube, 'startSeconds': this.debut, 'endSeconds': this.fin })
+      // console.log('player', this.player)
+      // this.$root.$emit('youtube', this.id_youtube)
       this.transparence = items.transparence.value
       this.bouton_presentation = items.bouton_presentation.value
+      this.presentation = items.presentation.value
       this.bouton_activites = items.bouton_activites.value
       this.bouton_membres = items.bouton_membres.value
       this.bouton_recrutement = items.bouton_recrutement.value
       this.bouton_outils = items.bouton_outils.value
+      this.font_bouton = items.font_bouton.value
+      this.font_logo = items.font_logo.value
+      this.font_sous_titre = items.font_sous_titre.value
+      this.font_texte_normal = items.font_texte_normal.value
+      let listeFonts = []
+      if (this.font_bouton) listeFonts.push(this.font_bouton)
+      if (this.font_logo) listeFonts.push(this.font_logo)
+      if (this.font_sous_titre) listeFonts.push(this.font_sous_titre)
+      if (this.font_texte_normal) listeFonts.push(this.font_texte_normal)
+      webFont.load({
+        google: {
+          families: listeFonts
+        }
+      })
       // console.log(items)
     })
+  },
+  computed: {
+    idYoutube () {
+      if (this.id_youtube && this.player) return this.id_youtube
+      else return ''
+    }
   },
   mounted () {
     // console.log(FullPageScroll)
