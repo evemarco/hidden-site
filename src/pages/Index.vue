@@ -39,13 +39,13 @@
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_membres }}
           q-carousel(v-model="slide"  style="height: calc(72vmin);" transition-prev="scale" transition-next="scale" infinite :autoplay="10000" swipeable animated control-color="white" navigation padding arrows).rounded-borders
             template(v-for="[index, pack] of membres")
-              q-carousel-slide(:name="`slide${index}`").flex.justify-center.q-gutter-md
-                q-card.my-card(v-for="membre of pack").bg-black
-                  q-img(:src="`https://imageserver.eveonline.com/character/${membre.id_perso.value}_256.jpg`")
-                    .absolute-top.text-center {{ membre.nom_perso.value }}
-                    .absolute-bottom.small-text {{ membre.role.value }}
-                      br
-                      | {{ membre.description_perso.value }}
+              q-carousel-slide(:name="`slide${index}`").flex.flex-center.justify-center.q-gutter-md
+                  q-card.my-card(v-for="membre of pack").bg-black
+                    q-img(:src="`https://imageserver.eveonline.com/character/${membre.id_perso.value}_256.jpg`")
+                      .absolute-top.text-center {{ membre.nom_perso.value }}
+                      .absolute-bottom.small-text {{ membre.role.value }}
+                        br
+                        | {{ membre.description_perso.value }}
       section.text-white
         .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`")
@@ -155,12 +155,12 @@ section {
   font-size: 2vmin;
 }
 .my-card {
-  font-size: 1.8vmin;
-  width: 30vmin;
-  height: 30vmin;
+  font-size: 1.75vmin;
+  width: 26.5vmin;
+  height: 26.5vmin;
 }
 .small-text {
-  font-size: 1.5vmin;
+  font-size: 1.4vmin;
 }
 .q-img__content > div {
   padding: 8px 16px;

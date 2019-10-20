@@ -23,6 +23,14 @@ import { openURL } from 'quasar'
 
 export default {
   name: 'MyLayout',
+  meta () {
+    return {
+      title: this.meta_title,
+      meta: {
+        description: { name: 'description', content: this.meta_description }
+      }
+    }
+  },
   data () {
     return {
       nom_corpo: '',
@@ -36,7 +44,9 @@ export default {
       lien_forum: '',
       lien_eve_online: '',
       font_logo: '',
-      font_bouton: ''
+      font_bouton: '',
+      meta_title: '',
+      meta_description: ''
     }
   },
   created () {
@@ -53,6 +63,8 @@ export default {
       this.lien_eve_online = items.lien_eve_online.value
       this.font_logo = items.font_logo.value
       this.font_bouton = items.font_bouton.value
+      this.meta_title = items.meta_title.value
+      this.meta_description = items.meta_description.value
     })
   },
   methods: {

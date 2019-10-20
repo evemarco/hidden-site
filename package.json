@@ -1,8 +1,8 @@
 {
   "name": "bag8-site",
   "version": "0.0.1",
-  "description": "Présentation de la corporation Hidden Baguette pour le jeu Eve Online",
-  "productName": "Hidden Baguette",
+  "description": "Présentation de la corporation Hidden Baguette pour le jeu Eve Online, groupe francophone vivant en wormhole space et principalement axé PvP",
+  "productName": "Corporation Hidden Baguette - Eve Online",
   "cordovaId": "org.cordova.quasar.app",
   "author": "evemarco <eve.icefr@gmail.com>",
   "private": true,
