@@ -22,8 +22,7 @@
       section.text-white
         .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
           .text-center.size-titre(:style="`font-family: ${font_bouton};`") {{ bouton_activites }}
-          //- div(style="height: calc(72vh - 50px);")
-          vue-flux(:options="activitesOptions" :images="activitesImages" :transitions="activitesTransitions" :captions="activitesCaptions" ref="activites")
+          vue-flux(:options="vfOptions" :images="activitesImages" :transitions="vfTransitions" :captions="activitesCaptions" ref="activites")
             template(v-slot:preloader)
               flux-preloader
             template(v-slot:caption)
@@ -47,8 +46,20 @@
           q-img(:src="recrutement_image_de_fond" style="height: calc(72vh - 50px);" position="center center")
             div(:style="`font-family: ${font_texte_normal};`" v-html="recrutement_descriptif").size-texte.absolute-full.text-subtitle2.flex.flex-center.column
       section.text-white
-        .self-center(style="margin-top: -50px;")
+        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_outils }}
+          vue-flux(:options="vfOptions" :images="outilsImages" :transitions="vfTransitions" :captions="outilsCaptions" ref="outils")
+            template(v-slot:preloader)
+              flux-preloader
+            template(v-slot:caption)
+              flux-caption(v-slot="captionProps")
+                .flux-caption(v-html="captionProps.text")
+            template(v-slot:controls)
+              flux-controls
+            template(v-slot:pagination)
+              flux-pagination
+            //- template(v-slot:index)
+            //-   flux-index
 </template>
 
 <style>
@@ -182,10 +193,12 @@ export default {
       debut: 0,
       fin: null,
       player: {},
-      activitesOptions: { autoplay: true, delay: 10000 },
+      vfOptions: { autoplay: true, delay: 10000 },
+      vfTransitions: [ 'concentric', 'warp', 'round1', 'round2', 'wave', 'waterfall', 'zip', 'blinds2d', 'blocks1', 'blocks2', 'blinds3d', 'explode' ],
       activitesImages: [],
-      activitesTransitions: [ 'concentric', 'warp', 'round1', 'round2', 'fade', 'wave' ],
       activitesCaptions: [],
+      outilsImages: [],
+      outilsCaptions: [],
       recrutement_titre: '',
       recrutement_descriptif: '',
       recrutement_image_de_fond: ''
@@ -259,6 +272,10 @@ export default {
       for (const activite of items.activites.value) {
         this.activitesImages.push(activite.diapo__image_de_fond.value[0].url)
         this.activitesCaptions.push(`<div class="flux-caption-titre">${activite.diapo__titre.value}</div><div class="flux-caption-descriptif">${activite.diapo__descriptif.value}</div>`)
+      }
+      for (const outil of items.outils.value) {
+        this.outilsImages.push(outil.diapo__image_de_fond.value[0].url)
+        this.outilsCaptions.push(`<div class="flux-caption-titre">${outil.diapo__titre.value}</div><div class="flux-caption-descriptif">${outil.diapo__descriptif.value}</div>`)
       }
       // console.log(items)
     })
