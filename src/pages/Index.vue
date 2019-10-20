@@ -20,14 +20,30 @@
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_presentation }}
           div(:style="`font-family: ${font_texte_normal}`" v-html="presentation").size-texte
       section.text-white
-        .self-center(style="margin-top: -50px;")
-          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_activites }}
+        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
+          .text-center.size-titre(:style="`font-family: ${font_bouton};`") {{ bouton_activites }}
+          //- div(style="height: calc(72vh - 50px);")
+          vue-flux(:options="activitesOptions" :images="activitesImages" :transitions="activitesTransitions" :captions="activitesCaptions" ref="activites")
+            template(v-slot:preloader)
+              flux-preloader
+            template(v-slot:caption)
+              flux-caption(v-slot="captionProps")
+                .flux-caption(v-html="captionProps.text")
+            template(v-slot:controls)
+              flux-controls
+            template(v-slot:pagination)
+              flux-pagination
+            //- template(v-slot:index)
+            //-   flux-index
       section.text-white
         .self-center(style="margin-top: -50px;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_membres }}
       section.text-white
         .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
-          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ recrutement_titre }}
+          .text-center.size-titre(:style="`font-family: ${font_bouton}`")
+            img(src="https://cdn.pixabay.com/photo/2012/04/25/08/56/america-41776_960_720.png").img-titre
+            span.q-mx-lg {{ recrutement_titre }}
+            img(src="https://cdn.pixabay.com/photo/2012/04/25/08/56/america-41776_960_720.png").img-titre
           q-img(:src="recrutement_image_de_fond" style="height: calc(72vh - 50px);" position="center center")
             div(:style="`font-family: ${font_texte_normal};`" v-html="recrutement_descriptif").size-texte.absolute-full.text-subtitle2.flex.flex-center.column
       section.text-white
@@ -106,13 +122,25 @@ section {
 .size-texte {
   font-size: 2vmin;
 }
+.img-titre {
+  height: 8vmin;
+}
+.vue-flux {
+  height: calc(72vh - 50px);
+}
+.flux-caption-titre {
+  font-size: 4vmin;
+}
+.flux-caption-descriptif {
+  font-size: 2vmin;
+}
 </style>
 
 <script>
 import webFont from 'webfontloader'
 import * as FullPageScroll from 'responsive-fullpage-scroll/dist/fullpage-scroll'
 import { DeliveryClient } from '@kentico/kontent-delivery'
-import { VueFlux, FluxCaption } from 'vue-flux'
+import { VueFlux, FluxCaption, FluxControls, FluxPagination, FluxPreloader } from 'vue-flux'
 
 const deliveryClient = new DeliveryClient({
   projectId: '66e72765-32bf-0056-dae3-bb6d6dc6131f',
@@ -126,7 +154,11 @@ export default {
   name: 'PageIndex',
   components: {
     VueFlux,
-    FluxCaption
+    FluxCaption,
+    FluxControls,
+    // FluxIndex,
+    FluxPagination,
+    FluxPreloader
   },
   data () {
     return {
@@ -149,7 +181,14 @@ export default {
       transparence: 0,
       debut: 0,
       fin: null,
-      player: {}
+      player: {},
+      activitesOptions: { autoplay: true, delay: 10000 },
+      activitesImages: [],
+      activitesTransitions: [ 'concentric', 'warp', 'round1', 'round2', 'fade', 'wave' ],
+      activitesCaptions: [],
+      recrutement_titre: '',
+      recrutement_descriptif: '',
+      recrutement_image_de_fond: ''
     }
   },
   methods: {
@@ -217,7 +256,11 @@ export default {
       this.recrutement_titre = items.diapo__titre.value
       this.recrutement_descriptif = items.diapo__descriptif.value
       this.recrutement_image_de_fond = items.diapo__image_de_fond.value[0].url
-      // console.log(items)
+      for (const activite of items.activites.value) {
+        this.activitesImages.push(activite.diapo__image_de_fond.value[0].url)
+        this.activitesCaptions.push(`<div class="flux-caption-titre">${activite.diapo__titre.value}</div><div class="flux-caption-descriptif">${activite.diapo__descriptif.value}</div>`)
+      }
+      console.log(items)
     })
   },
   computed: {
