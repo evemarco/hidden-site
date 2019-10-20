@@ -35,8 +35,17 @@
             //- template(v-slot:index)
             //-   flux-index
       section.text-white
-        .self-center(style="margin-top: -50px;")
+        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_membres }}
+          q-carousel(v-model="slide"  style="height: calc(72vmin);" transition-prev="scale" transition-next="scale" infinite :autoplay="10000" swipeable animated control-color="white" navigation padding arrows).rounded-borders
+            template(v-for="[index, pack] of membres")
+              q-carousel-slide(:name="`slide${index}`").flex.justify-center.q-gutter-md
+                q-card.my-card(v-for="membre of pack").bg-black
+                  q-img(:src="`https://imageserver.eveonline.com/character/${membre.id_perso.value}_256.jpg`")
+                    .absolute-top.text-center {{ membre.nom_perso.value }}
+                    .absolute-bottom.small-text {{ membre.role.value }}
+                      br
+                      | {{ membre.description_perso.value }}
       section.text-white
         .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
           .text-center.size-titre(:style="`font-family: ${font_bouton}`")
@@ -145,6 +154,17 @@ section {
 .flux-caption-descriptif {
   font-size: 2vmin;
 }
+.my-card {
+  font-size: 1.8vmin;
+  width: 30vmin;
+  height: 30vmin;
+}
+.small-text {
+  font-size: 1.5vmin;
+}
+.q-img__content > div {
+  padding: 8px 16px;
+}
 </style>
 
 <script>
@@ -175,6 +195,7 @@ export default {
     return {
       url: window.location.href,
       FullPageScroll: FullPageScroll,
+      slide: 'slide0',
       nom_corpo: '',
       sous_titre: '',
       image_logo: '',
@@ -201,7 +222,8 @@ export default {
       outilsCaptions: [],
       recrutement_titre: '',
       recrutement_descriptif: '',
-      recrutement_image_de_fond: ''
+      recrutement_image_de_fond: '',
+      membres: new Map()
     }
   },
   methods: {
@@ -277,6 +299,16 @@ export default {
         this.outilsImages.push(outil.diapo__image_de_fond.value[0].url)
         this.outilsCaptions.push(`<div class="flux-caption-titre">${outil.diapo__titre.value}</div><div class="flux-caption-descriptif">${outil.diapo__descriptif.value}</div>`)
       }
+      let i = 0
+      for (const membre of items.membres.value) {
+        const r = Math.trunc(i / 6)
+        if (!this.membres.has(r)) this.membres.set(r, [])
+        let tab = this.membres.get(r)
+        tab.push(membre)
+        this.membres.set(r, tab)
+        i++
+      }
+      // console.log(this.membres)
       // console.log(items)
     })
   },
