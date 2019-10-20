@@ -165,6 +165,9 @@ section {
 .q-img__content > div {
   padding: 8px 16px;
 }
+a:link, a:visited, a:hover, a:active {
+  color: white;
+}
 </style>
 
 <script>
