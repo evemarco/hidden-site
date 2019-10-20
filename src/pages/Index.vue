@@ -260,7 +260,7 @@ export default {
         this.activitesImages.push(activite.diapo__image_de_fond.value[0].url)
         this.activitesCaptions.push(`<div class="flux-caption-titre">${activite.diapo__titre.value}</div><div class="flux-caption-descriptif">${activite.diapo__descriptif.value}</div>`)
       }
-      console.log(items)
+      // console.log(items)
     })
   },
   computed: {
