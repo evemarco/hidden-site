@@ -4,10 +4,25 @@
     <title><%= htmlWebpackPlugin.options.productName %></title>
 
     <meta charset="utf-8">
+    <meta name="title" content="<%= htmlWebpackPlugin.options.productName %>">
     <meta name="description" content="<%= htmlWebpackPlugin.options.productDescription %>">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (htmlWebpackPlugin.options.ctx.mode.cordova || htmlWebpackPlugin.options.ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bag8.netlify.com/">
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.productName %>">
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.productDescription %>">
+    <meta property="og:image" content="statics/capture_site.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://bag8.netlify.com/">
+    <meta property="twitter:title" content="<%= htmlWebpackPlugin.options.productName %>">
+    <meta property="twitter:description" content="<%= htmlWebpackPlugin.options.productDescription %>">
+    <meta property="twitter:image" content="statics/capture_site.png">
 
     <link rel="icon" type="image/png" href="statics/app-logo-128x128.png">
     <link rel="icon" type="image/png" sizes="16x16" href="statics/icons/favicon-16x16.png">
@@ -16,7 +31,7 @@
     <link rel="icon" type="image/ico" href="statics/icons/favicon.ico">
 
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link rel="preconnect" href="https://www.youtube.com/" crossorigin>
+    <link rel="preconnect" href="https://www.youtube-nocookie.com/" crossorigin>
   </head>
   <body>
     <!-- DO NOT touch the following DIV -->

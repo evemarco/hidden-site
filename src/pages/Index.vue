@@ -2,7 +2,7 @@
   //- .flex.flex-center
   div(style="overflow: hidden;")
     .video-background
-      youtube(v-if="id_youtube" :video-id="id_youtube" host="http://www.youtube-nocookie.com" :mute="true" player-width="100%" player-height="100%" @ready="(player) => ytReady(player)" @ended="(player) => ytReplay(player)" :player-vars="{ autoplay: 1, loop: 1, start: debut, end: fin, controls: 0, showinfo:0, rel: 0, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, mute: 1, origin: '*' }").video-foreground
+      youtube(v-if="id_youtube" :video-id="id_youtube" host="https://www.youtube-nocookie.com" :mute="true" player-width="100%" player-height="100%" @ready="(player) => ytReady(player)" @ended="(player) => ytReplay(player)" :player-vars="{ autoplay: 1, loop: 1, start: debut, end: fin, controls: 0, showinfo:0, rel: 0, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, mute: 1, origin: '*' }").video-foreground
       .dark-background(:style="transparence > 0 ? `background-color: rgba(0, 0, 0, ${transparence});` : ''")
     //- controls:0, showinfo:0, rel: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, loop: 1 }") cc_lang_pref: 'fr',
     #wrap.text-white
