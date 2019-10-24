@@ -50,7 +50,6 @@ module.exports = function (ctx) {
         'QSpinner',
         'QImg',
         'QCard',
-        'QScrollArea',
         'QCarousel',
         'QCarouselControl',
         'QCarouselSlide'

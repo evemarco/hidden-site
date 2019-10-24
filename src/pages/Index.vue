@@ -1,28 +1,29 @@
 <template lang="pug">
-  //- .flex.flex-center
-  div(style="overflow: hidden;")
+  .hidden-overflow
     .video-background
       youtube(v-if="id_youtube" :video-id="id_youtube" host="https://www.youtube-nocookie.com" :mute="true" player-width="100%" player-height="100%" @ready="(player) => ytReady(player)" @ended="(player) => ytReplay(player)" :player-vars="{ autoplay: 1, loop: 1, start: debut, end: fin, controls: 0, showinfo:0, rel: 0, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, mute: 1, origin: '*' }").video-foreground
       .dark-background(:style="transparence > 0 ? `background-color: rgba(0, 0, 0, ${transparence});` : ''")
-    //- controls:0, showinfo:0, rel: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, loop: 1 }") cc_lang_pref: 'fr',
     #wrap.text-white
+      //- Section accueil avec vidéo youtube en fond
       section.flex.flex-center
         .self-center(style="margin-top: -50px;")
           transition(appear enter-active-class="animated bounceInLeft")
             .text-center(key="h1" :style="font_logo ? `font-family: ${font_logo}, cursive;` : ''").row.full-width.size-titre
               .fit.row.justify-center.items-center.content-center
                 img(key="img" :src="image_logo" style="max-width: 16vmin; max-height: 16vmin;").col-shrink.on-left.animated.myanim.pulse
-                span(style="word-wrap: break-word;").col-shrink {{ nom_corpo }}
+                span.break-word.col-shrink {{ nom_corpo }}
           transition(appear enter-active-class="animated bounceInRight")
             .text-center(key="h2" :style="font_sous_titre ? `font-family: ${font_sous_titre}` : ''" v-html="sous_titre").size-sous-titre
+      //- Section présentation
       section.text-white
-        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
+        .self-center.inside-section
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_presentation }}
           div(:style="`font-family: ${font_texte_normal}`" v-html="presentation").size-texte
+      //- Section activités
       section.text-white
-        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
+        .self-center.inside-section
           .text-center.size-titre(:style="`font-family: ${font_bouton};`") {{ bouton_activites }}
-          vue-flux(:options="vfOptions" :images="activitesImages" :transitions="vfTransitions" :captions="activitesCaptions" ref="activites")
+          vue-flux(:options="vfOptions" :images="activitesImages" :transitions="vfTransitions" :captions="activitesCaptions" :style="`font-family: ${font_texte_normal}`" ref="activites")
             template(v-slot:preloader)
               flux-preloader
             template(v-slot:caption)
@@ -32,32 +33,32 @@
               flux-controls
             template(v-slot:pagination)
               flux-pagination
-            //- template(v-slot:index)
-            //-   flux-index
+      //- Section membres
       section.text-white
-        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
+        .self-center.inside-section
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_membres }}
-          q-carousel(v-model="slide"  style="height: calc(72vmin);" transition-prev="scale" transition-next="scale" infinite :autoplay="10000" swipeable animated control-color="white" navigation padding arrows).rounded-borders
-            template(v-for="[index, pack] of membres")
-              q-carousel-slide(:name="`slide${index}`").flex.flex-center.justify-center.q-gutter-md
-                  q-card.my-card(v-for="membre of pack").bg-black
-                    q-img(:src="`https://imageserver.eveonline.com/character/${membre.id_perso.value}_256.jpg`")
-                      .absolute-top.text-center {{ membre.nom_perso.value }}
-                      .absolute-bottom.small-text {{ membre.role.value }}
-                        br
-                        | {{ membre.description_perso.value }}
+          q-carousel(v-model="slide"  style="height: 72vmin;" transition-prev="scale" transition-next="scale" infinite :autoplay="10000" swipeable animated control-color="white" navigation padding arrows :style="`font-family: ${font_texte_normal}`").rounded-borders
+            q-carousel-slide(:name="`slide${index}`" v-for="[index, pack] of membres" :key="pack.key").flex.flex-center.justify-center.q-gutter-md
+                q-card.my-card(v-for="membre of pack").bg-black
+                  q-img(:src="`https://imageserver.eveonline.com/character/${membre.id_perso.value}_256.jpg`")
+                    .absolute-top.text-center {{ membre.nom_perso.value }}
+                    .absolute-bottom.small-text {{ membre.role.value }}
+                      br
+                      | {{ membre.description_perso.value }}
+      //- Section recrutement
       section.text-white
-        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
+        .self-center.inside-section
           .text-center.size-titre(:style="`font-family: ${font_bouton}`")
             img(src="https://cdn.pixabay.com/photo/2012/04/25/08/56/america-41776_960_720.png").img-titre
             span.q-mx-lg {{ recrutement_titre }}
             img(src="https://cdn.pixabay.com/photo/2012/04/25/08/56/america-41776_960_720.png").img-titre
-          q-img(:src="recrutement_image_de_fond" style="height: calc(72vh - 50px);" position="center center")
+          q-img(:src="recrutement_image_de_fond" position="center center").qimg
             div(:style="`font-family: ${font_texte_normal};`" v-html="recrutement_descriptif").size-texte.absolute-full.text-subtitle2.flex.flex-center.column
+      //- Section outils
       section.text-white
-        .self-center(style="margin-top: -50px; background-color: rgba(0,0,0,0.5); padding: 1vh 1vw;")
+        .self-center.inside-section
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_outils }}
-          vue-flux(:options="vfOptions" :images="outilsImages" :transitions="vfTransitions" :captions="outilsCaptions" ref="outils")
+          vue-flux(:options="vfOptions" :images="outilsImages" :transitions="vfTransitions" :captions="outilsCaptions" :style="`font-family: ${font_texte_normal}`" ref="outils")
             template(v-slot:preloader)
               flux-preloader
             template(v-slot:caption)
@@ -67,107 +68,89 @@
               flux-controls
             template(v-slot:pagination)
               flux-pagination
-            //- template(v-slot:index)
-            //-   flux-index
 </template>
 
-<style>
-/* * { box-sizing: border-box; } */
-.dark-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.60);
-  width: 100%;
-  height: 100%;
-}
-.video-background {
-  background: #000;
-  position: fixed;
-  top: 0; right: 0; bottom: 0; left: 0;
-  z-index: -99;
-}
-.video-foreground,
-.video-background iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-@media (min-aspect-ratio: 16/9) {
-  .video-foreground { height: 300%; top: -100%; }
-}
-@media (max-aspect-ratio: 16/9) {
-  .video-foreground { width: 300%; left: -100%; }
-}
-/* @supports (object-fit: cover) {
-  .video-foreground {
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
-} */
-.page-container {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-}
-#wrap {
-  position: relative;
-  overflow: hidden;
-}
-section {
-  box-sizing: border-box;
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-  font-size: 10vmin;
-  padding: 1em;
-}
-.myanim {
-  animation-duration: 4s;
-  animation-delay: 2s;
-  animation-iteration-count: infinite;
-}
-.size-titre {
-  font-size: 8vmin;
-}
-.size-sous-titre {
-  font-size: 5vmin;
-}
-.size-texte {
-  font-size: 2vmin;
-}
-.img-titre {
-  height: 8vmin;
-}
-.vue-flux {
-  height: calc(72vh - 50px);
-}
-.flux-caption-titre {
-  font-size: 4vmin;
-}
-.flux-caption-descriptif {
-  font-size: 2vmin;
-}
-.my-card {
-  font-size: 1.75vmin;
-  width: 26.5vmin;
-  height: 26.5vmin;
-}
-.small-text {
-  font-size: 1.4vmin;
-}
-.q-img__content > div {
-  padding: 8px 16px;
-}
-a:link, a:visited, a:hover, a:active {
-  color: white;
-}
+<style lang="stylus">
+.dark-background
+  position: absolute
+  top: 0
+  left: 0
+  background-color: rgba(0, 0, 0, 0.60)
+  width: 100%
+  height: 100%
+.video-background
+  background: #000
+  position: fixed
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  z-index: -99
+.video-foreground, .video-background iframe
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  pointer-events: none
+@media (min-aspect-ratio: 16/9)
+  .video-foreground
+    height: 300%
+    top: -100%
+@media (max-aspect-ratio: 16/9)
+  .video-foreground
+    width: 300%
+    left: -100%
+.page-container
+  position: absolute
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+#wrap
+  position: relative
+  overflow: hidden
+.hidden-overflow
+  overflow: hidden
+section
+  box-sizing: border-box
+  position: relative
+  height: 100vh
+  overflow: hidden
+  font-size: 10vmin
+  padding: 1em
+.inside-section
+  margin-top: -50px
+  background-color: rgba(0,0,0,0.5)
+  padding: 1vh 1vw
+.myanim
+  animation-duration: 4s
+  animation-delay: 2s
+  animation-iteration-count: infinite
+.size-titre
+  font-size: 8vmin
+.size-sous-titre
+  font-size: 5vmin
+.size-texte, .flux-caption-descriptif
+  font-size: 2vmin
+.img-titre
+  height: 8vmin
+.vue-flux, .qimg
+  height: calc(72vh - 50px)
+.flux-caption-titre
+  font-size: 4vmin
+.my-card
+  font-size: 1.75vmin
+  width: 26.5vmin
+  height: 26.5vmin
+.small-text
+  font-size: 1.4vmin
+.q-img__content > div
+  padding: 8px 16px
+a:link, a:visited, a:hover, a:active
+  color: white
+.break-word
+  word-wrap: break-word
 </style>
 
 <script>
@@ -190,7 +173,6 @@ export default {
     VueFlux,
     FluxCaption,
     FluxControls,
-    // FluxIndex,
     FluxPagination,
     FluxPreloader
   },
@@ -250,12 +232,6 @@ export default {
     }
   },
   created () {
-    // webFont.load({
-    //   google: {
-    //     families: ['Croissant One']
-    //     // text: 'Hidden Baguette'
-    //   }
-    // })
     deliveryClient.items().type('site').toPromise().then(response => {
       let items = response.items[0]
       this.$root.$emit('site', items)
@@ -281,9 +257,6 @@ export default {
       this.debut = items.debut.value
       this.fin = items.fin.value
       this.id_youtube = items.id_youtube.value
-      // this.player.loadVideoById({ 'videoId': this.id_youtube, 'startSeconds': this.debut, 'endSeconds': this.fin })
-      // console.log('player', this.player)
-      // this.$root.$emit('youtube', this.id_youtube)
       this.transparence = items.transparence.value
       this.bouton_presentation = items.bouton_presentation.value
       this.presentation = items.presentation.value
@@ -311,8 +284,6 @@ export default {
         this.membres.set(r, tab)
         i++
       }
-      // console.log(this.membres)
-      // console.log(items)
     })
   },
   computed: {
@@ -322,7 +293,6 @@ export default {
     }
   },
   mounted () {
-    // console.log(FullPageScroll)
     let fps
     window.addEventListener('load', function () {
       fps = new this.FullPageScroll('wrap')

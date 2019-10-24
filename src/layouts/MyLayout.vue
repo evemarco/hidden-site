@@ -1,7 +1,7 @@
 <template lang="pug">
   q-layout(view="lHh Lpr lFf")
-    q-header(elevated style="background-color: rgba(0, 0, 0, 0.8)")
-      q-toolbar(style="background-color: rgba(0, 0, 0, 0)")
+    q-header(elevated).qheader
+      q-toolbar
         q-btn(flat no-caps dense :icon="image_logo ? `img:${image_logo}` : ''" size="lg" :style="`font-family: ${font_logo}, cursive;`" @click="$root.$emit('goToSlide', 0)" :label="nom_corpo")
           q-spinner(v-if="!image_logo" color="primary")
         q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 1)" :label="bouton_presentation").on-right
@@ -19,7 +19,6 @@
 
 <script>
 import { openURL } from 'quasar'
-// import webFont from 'webfontloader'
 
 export default {
   name: 'MyLayout',
@@ -77,4 +76,6 @@ export default {
 @font-face
   font-family: eve
   src: url(../statics/eve.ttf)
+.qheader
+  background-color: rgba(0, 0, 0, 0.8)
 </style>
