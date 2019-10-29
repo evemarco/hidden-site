@@ -149,7 +149,7 @@ section
   height: calc(72vh - 50px)
 .flux-caption-titre
   font-size: 4vmin
-  margin-bottom: 1vmin
+  margin-bottom: 2vmin
 .my-card
   font-size: 1.75vmin
   width: 26.5vmin
