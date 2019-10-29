@@ -1,10 +1,11 @@
 <template lang="pug">
   .hidden-overflow
+    //- Fond vidéo youtube
     .video-background
       youtube(v-if="id_youtube" :video-id="id_youtube" host="https://www.youtube-nocookie.com" :mute="true" player-width="100%" player-height="100%" @ready="(player) => ytReady(player)" @ended="(player) => ytReplay(player)" :player-vars="{ autoplay: 1, loop: 1, start: debut, end: fin, controls: 0, showinfo:0, rel: 0, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, modestbranding: 1, autohide: 1, mute: 1, origin: '*' }").video-foreground
       .dark-background(:style="transparence > 0 ? `background-color: rgba(0, 0, 0, ${transparence});` : ''")
     #wrap.text-white
-      //- Section accueil avec vidéo youtube en fond
+      //- Section accueil
       section.flex.flex-center
         .self-center(style="margin-top: -50px;")
           transition(appear enter-active-class="animated bounceInLeft")
@@ -39,7 +40,7 @@
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_membres }}
           q-carousel(v-model="slide"  style="height: 72vmin;" transition-prev="scale" transition-next="scale" infinite :autoplay="10000" swipeable animated control-color="white" navigation padding arrows :style="`font-family: ${font_texte_normal}`").rounded-borders
             q-carousel-slide(:name="`slide${index}`" v-for="[index, pack] of membres" :key="pack.key").flex.flex-center.justify-center.q-gutter-md
-                q-card.my-card(v-for="membre of pack").bg-black
+                q-card.my-card(v-for="membre of pack" :key="membre.id_perso.value").bg-black
                   q-img(:src="`https://imageserver.eveonline.com/character/${membre.id_perso.value}_256.jpg`")
                     .absolute-top.text-center {{ membre.nom_perso.value }}
                     .absolute-bottom.small-text {{ membre.role.value }}
@@ -49,9 +50,9 @@
       section.text-white
         .self-center.inside-section
           .text-center.size-titre(:style="`font-family: ${font_bouton}`")
-            img(src="https://cdn.pixabay.com/photo/2012/04/25/08/56/america-41776_960_720.png").img-titre
+            img(src="/statics/america-recrut.png").img-titre
             span.q-mx-lg {{ recrutement_titre }}
-            img(src="https://cdn.pixabay.com/photo/2012/04/25/08/56/america-41776_960_720.png").img-titre
+            img(src="/statics/america-recrut.png").img-titre
           q-img(:src="recrutement_image_de_fond" position="center center").qimg
             div(:style="`font-family: ${font_texte_normal};`" v-html="recrutement_descriptif").size-texte.absolute-full.text-subtitle2.flex.flex-center.column
       //- Section outils
@@ -68,6 +69,15 @@
               flux-controls
             template(v-slot:pagination)
               flux-pagination
+    //- Bouton de copyright CCP
+    q-btn(no-caps flat unelevated label="CCP Copyright Notice" @click="notice = true").copyright
+    q-dialog(v-model="notice" style="position: fixed; top: 40%; left: 20%; width: 60%; height: 20%; z-index: 1;")
+      q-card.black90.text-white
+        q-card-section.row.items-center.q-ma-lg
+          .text-h6 CCP Copyright Notice
+          q-space
+          q-btn(icon="close" flat round dense v-close-popup)
+        q-card-section.row.q-ma-lg {{ noticeText }}
 </template>
 
 <style lang="stylus">
@@ -151,6 +161,19 @@ a:link, a:visited, a:hover, a:active
   color: white
 .break-word
   word-wrap: break-word
+.copyright
+  position: fixed
+  right: 0
+  bottom: 0
+  text-align: center
+  color: white
+  opacity: 0.2
+.copyright:hover
+  opacity: 1
+  background: transparent !important
+  background-color: transparent !important
+.black90
+  background-color: rgba(0, 0, 0, 0.90)
 </style>
 
 <script>
@@ -179,6 +202,8 @@ export default {
   data () {
     return {
       url: window.location.href,
+      host: window.location.host,
+      notice: false,
       FullPageScroll: FullPageScroll,
       slide: 'slide0',
       nom_corpo: '',
@@ -290,7 +315,8 @@ export default {
     idYoutube () {
       if (this.id_youtube && this.player) return this.id_youtube
       else return ''
-    }
+    },
+    noticeText () { return `EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP hf. has granted permission to ${this.host} to use EVE Online and all associated logos and designs for promotional and information purposes on its website but does not endorse, and is not in any way affiliated with, ${this.host}. CCP is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.` }
   },
   mounted () {
     let fps

@@ -10,7 +10,7 @@
         q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 4)" :label="bouton_recrutement").on-right
         q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 5)" :label="bouton_outils").on-right
         q-space
-        q-btn(v-if="lien_discord" flat no-caps dense :style="`font-family: ${font_bouton}`" icon="img:https://image.flaticon.com/icons/svg/2111/2111370.svg" label="Discord" @click="openURL(lien_discord)").on-left
+        q-btn(v-if="lien_discord" flat no-caps dense :style="`font-family: ${font_bouton}`" icon="img:/statics/discord.svg" label="Discord" @click="openURL(lien_discord)").on-left
         q-btn(v-if="lien_forum" flat no-caps dense :style="`font-family: ${font_bouton}`" icon="chat" @click="openURL(lien_forum)" label="Forum").on-left
         q-btn(v-if="lien_eve_online" flat no-caps dense size="lg" @click="openURL(lien_eve_online)" style="font-family: eve" label="Eve Online")
     q-page-container
