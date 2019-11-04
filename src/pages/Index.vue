@@ -52,9 +52,9 @@
       section.text-white
         .self-center.inside-section
           .text-center.size-titre(:style="`font-family: ${font_bouton}`")
-            img(src="/statics/america-recrut.png").img-titre
+            img(src="/statics/america-recrut.png").img-titre.orientation-landscape
             span.q-mx-lg {{ recrutement_titre }}
-            img(src="/statics/america-recrut.png").img-titre
+            img(src="/statics/america-recrut.png").img-titre.orientation-landscape
           q-img(:src="recrutement_image_de_fond" position="center center").qimg
             div(:style="`font-family: ${font_texte_normal};`" v-html="recrutement_descriptif").size-texte.absolute-full.text-subtitle2.flex.flex-center.column
       //- Section outils
