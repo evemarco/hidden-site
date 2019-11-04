@@ -4,11 +4,11 @@
       q-toolbar
         q-btn(flat no-caps dense :icon="image_logo ? `img:${image_logo}` : ''" size="lg" :style="`font-family: ${font_logo}, cursive;`" @click="$root.$emit('goToSlide', 0)" :label="nom_corpo")
           q-spinner(v-if="!image_logo" color="primary")
-        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 1)" :label="bouton_presentation").on-right
-        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 2)" :label="bouton_activites").on-right
-        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 3)" :label="bouton_membres").on-right
-        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 4)" :label="bouton_recrutement").on-right
-        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 5)" :label="bouton_outils").on-right
+        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 1)" :label="bouton_presentation").on-right.orientation-landscape
+        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 2)" :label="bouton_activites").on-right.orientation-landscape
+        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 3)" :label="bouton_membres").on-right.orientation-landscape
+        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 4)" :label="bouton_recrutement").on-right.orientation-landscape
+        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 5)" :label="bouton_outils").on-right.orientation-landscape
         q-space
         q-btn(v-if="lien_discord" flat no-caps dense :style="`font-family: ${font_bouton}`" icon="img:/statics/discord.svg" label="Discord" @click="openURL(lien_discord)").on-left
         q-btn(v-if="lien_forum" flat no-caps dense :style="`font-family: ${font_bouton}`" icon="chat" @click="openURL(lien_forum)" label="Forum").on-left
