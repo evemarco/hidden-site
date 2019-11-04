@@ -29,7 +29,9 @@
               flux-preloader
             template(v-slot:caption)
               flux-caption(v-slot="captionProps")
-                .flux-caption(v-html="captionProps.text")
+                .flux-caption
+                  .flux-caption-titre {{ captionProps.text }}
+                  .flux-caption-descriptif(v-html="captionProps.caption.desc")
             template(v-slot:controls)
               flux-controls
             template(v-slot:pagination)
@@ -64,11 +66,14 @@
               flux-preloader
             template(v-slot:caption)
               flux-caption(v-slot="captionProps")
-                .flux-caption(v-html="captionProps.text")
+                .flux-caption
+                  .flux-caption-titre {{ captionProps.text }}
+                  .flux-caption-descriptif(v-html="captionProps.caption.desc")
             template(v-slot:controls)
               flux-controls
             template(v-slot:pagination)
               flux-pagination
+    q-btn(no-caps flat unelevated :icon="mute ? 'volume_off' : 'volume_up'" @click="ytMute()").mute
     //- Bouton de copyright CCP
     q-btn(no-caps flat unelevated label="CCP Copyright Notice" @click="notice = true").copyright
     q-dialog(v-model="notice" style="position: fixed; top: 40%; left: 20%; width: 60%; height: 20%; z-index: 1;")
@@ -150,6 +155,7 @@ section
 .flux-caption-titre
   font-size: 4vmin
   margin-bottom: 2vmin
+  margin-top: 1vmin
 .my-card
   font-size: 1.75vmin
   width: 26.5vmin
@@ -175,6 +181,17 @@ a:link, a:visited, a:hover, a:active
   background-color: transparent !important
 .black90
   background-color: rgba(0, 0, 0, 0.90)
+.mute
+  position: fixed
+  right: 0
+  top: 56px
+  text-align: center
+  color: white
+  opacity: 0.2
+.mute:hover
+  opacity: 1
+  background: transparent !important
+  background-color: transparent !important
 </style>
 
 <script>
@@ -205,6 +222,7 @@ export default {
       url: window.location.href,
       host: window.location.host,
       notice: false,
+      loaded: false,
       FullPageScroll: FullPageScroll,
       slide: 'slide0',
       nom_corpo: '',
@@ -225,6 +243,7 @@ export default {
       debut: 0,
       fin: null,
       player: {},
+      mute: true,
       vfOptions: { autoplay: true, delay: 10000 },
       vfTransitions: [ 'concentric', 'warp', 'round1', 'round2', 'wave', 'waterfall', 'zip', 'blinds2d', 'blocks1', 'blocks2', 'blinds3d', 'explode' ],
       activitesImages: [],
@@ -255,6 +274,15 @@ export default {
       //   player.loadVideoById({ 'videoId': id, 'startSeconds': this.debut, 'endSeconds': this.fin })
       //   console.log(player)
       // })
+    },
+    ytMute () {
+      if (this.mute) {
+        this.mute = false
+        this.player.unMute()
+      } else {
+        this.mute = true
+        this.player.mute()
+      }
     }
   },
   created () {
@@ -295,11 +323,17 @@ export default {
       this.recrutement_image_de_fond = items.diapo__image_de_fond.value[0].url
       for (const activite of items.activites.value) {
         this.activitesImages.push(activite.diapo__image_de_fond.value[0].url)
-        this.activitesCaptions.push(`<div class="flux-caption-titre">${activite.diapo__titre.value}</div><div class="flux-caption-descriptif">${activite.diapo__descriptif.value}</div>`)
+        this.activitesCaptions.push({
+          text: `${activite.diapo__titre.value}`,
+          desc: `${activite.diapo__descriptif.value}`
+        })
       }
       for (const outil of items.outils.value) {
         this.outilsImages.push(outil.diapo__image_de_fond.value[0].url)
-        this.outilsCaptions.push(`<div class="flux-caption-titre">${outil.diapo__titre.value}</div><div class="flux-caption-descriptif">${outil.diapo__descriptif.value}</div>`)
+        this.outilsCaptions.push({
+          text: `${outil.diapo__titre.value}`,
+          desc: `${outil.diapo__descriptif.value}`
+        })
       }
       let i = 0
       for (const membre of items.membres.value) {
@@ -310,6 +344,7 @@ export default {
         this.membres.set(r, tab)
         i++
       }
+      this.loaded = true
     })
   },
   computed: {
