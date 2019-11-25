@@ -86,112 +86,167 @@
 </template>
 
 <style lang="stylus">
-.dark-background
-  position: absolute
-  top: 0
-  left: 0
-  background-color: rgba(0, 0, 0, 0.60)
-  width: 100%
-  height: 100%
-.video-background
-  background: #000
-  position: fixed
-  top: 0
-  right: 0
-  bottom: 0
-  left: 0
-  z-index: -99
-.video-foreground, .video-background iframe
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-  pointer-events: none
-@media (min-aspect-ratio: 16/9)
-  .video-foreground
-    height: 300%
-    top: -100%
-@media (max-aspect-ratio: 16/9)
-  .video-foreground
-    width: 300%
-    left: -100%
-.page-container
-  position: absolute
-  left: 0
-  top: 0
-  width: 100%
-  height: 100%
-#wrap
-  position: relative
-  overflow: hidden
-.hidden-overflow
-  overflow: hidden
-section
-  box-sizing: border-box
-  position: relative
-  height: 100vh
-  overflow: hidden
-  font-size: 10vmin
-  padding: 1em
-.inside-section
-  margin-top: -50px
-  background-color: rgba(0,0,0,0.5)
-  padding: 1vh 1vw
-.myanim
-  animation-duration: 4s
-  animation-delay: 2s
-  animation-iteration-count: infinite
-.size-titre
-  font-size: 8vmin
-.size-sous-titre
-  font-size: 5vmin
-.size-texte, .flux-caption-descriptif
-  font-size: 2vmin
-.img-titre
-  height: 8vmin
-.vue-flux, .qimg
-  height: calc(72vh - 50px)
-.flux-caption-titre
-  font-size: 4vmin
-  margin-bottom: 2vmin
-  margin-top: 1vmin
-.my-card
-  font-size: 1.75vmin
-  width: 26.5vmin
-  height: 26.5vmin
-.small-text
-  font-size: 1.4vmin
-.q-img__content > div
-  padding: 8px 16px
-a:link, a:visited, a:hover, a:active
-  color: white
-.break-word
-  word-wrap: break-word
-.copyright
-  position: fixed
-  right: 0
-  bottom: 0
-  text-align: center
-  color: white
-  opacity: 0.2
-.copyright:hover
-  opacity: 1
-  background: transparent !important
-  background-color: transparent !important
-.black90
-  background-color: rgba(0, 0, 0, 0.90)
-.mute
-  position: fixed
-  right: 0
-  top: 56px
-  text-align: center
-  color: white
-  opacity: 0.2
-.mute:hover
-  opacity: 1
-  background: transparent !important
-  background-color: transparent !important
+.dark-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+}
+
+.video-background {
+  background: #000;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -99;
+}
+
+.video-foreground, .video-background iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+@media (min-aspect-ratio: 16 / 9) {
+  .video-foreground {
+    height: 300%;
+    top: -100%;
+  }
+}
+
+@media (max-aspect-ratio: 16 / 9) {
+  .video-foreground {
+    width: 300%;
+    left: -100%;
+  }
+}
+
+.page-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.hidden-overflow {
+  overflow: hidden;
+}
+
+section {
+  box-sizing: border-box;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  font-size: 10vmin;
+  padding: 1em;
+}
+
+.inside-section {
+  margin-top: -50px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1vh 1vw;
+}
+
+.myanim {
+  animation-duration: 4s;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+}
+
+.size-titre {
+  font-size: 8vmin;
+}
+
+.size-sous-titre {
+  font-size: 5vmin;
+}
+
+.size-texte, .flux-caption-descriptif {
+  font-size: 2vmin;
+}
+
+.img-titre {
+  height: 8vmin;
+}
+
+.vue-flux, .qimg {
+  height: calc(72vh - 50px);
+}
+
+.flux-caption-titre {
+  font-size: 4vmin;
+  margin-bottom: 2vmin;
+  margin-top: 1vmin;
+}
+
+.my-card {
+  font-size: 1.75vmin;
+  width: 26.5vmin;
+  height: 26.5vmin;
+}
+
+.small-text {
+  font-size: 1.4vmin;
+}
+
+.q-img__content > div {
+  padding: 8px 16px;
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: white;
+}
+
+.break-word {
+  word-wrap: break-word;
+}
+
+.copyright {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  color: white;
+  opacity: 0.2;
+}
+
+.copyright:hover {
+  opacity: 1;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.black90 {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.mute {
+  position: fixed;
+  right: 0;
+  top: 56px;
+  text-align: center;
+  color: white;
+  opacity: 0.2;
+}
+
+.mute:hover {
+  opacity: 1;
+  background: transparent !important;
+  background-color: transparent !important;
+}
 </style>
 
 <script>
@@ -245,7 +300,7 @@ export default {
       player: {},
       mute: true,
       vfOptions: { autoplay: true, delay: 10000 },
-      vfTransitions: [ 'concentric', 'warp', 'round1', 'round2', 'wave', 'waterfall', 'zip', 'blinds2d', 'blocks1', 'blocks2', 'blinds3d', 'explode' ],
+      vfTransitions: ['concentric', 'warp', 'round1', 'round2', 'wave', 'waterfall', 'zip', 'blinds2d', 'blocks1', 'blocks2', 'blinds3d', 'explode'],
       activitesImages: [],
       activitesCaptions: [],
       outilsImages: [],
