@@ -40,8 +40,8 @@
       section.text-white
         .self-center.inside-section
           .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ bouton_membres }}
-          q-carousel(v-model="slide"  style="height: 72vmin;" transition-prev="scale" transition-next="scale" infinite :autoplay="10000" swipeable animated control-color="white" navigation padding arrows :style="`font-family: ${font_texte_normal}`").rounded-borders
-            q-carousel-slide(:name="`slide${index}`" v-for="[index, pack] of membres" :key="pack.key").flex.flex-center.justify-center.q-gutter-md
+          q-carousel(v-model="slide" transition-prev="scale" transition-next="scale" infinite :autoplay="10000" swipeable animated control-color="white" navigation padding arrows dark :style="`height: 72vmin; background-color: rgba(0, 0, 0, 0.6); font-family: ${font_texte_normal}`").rounded-borders
+            q-carousel-slide(:name="`slide${index}`" v-for="[index, pack] of membres" :key="pack.key" dark).flex.flex-center.justify-center.q-gutter-md
                 q-card.my-card(v-for="membre of pack" :key="membre.id_perso.value").bg-black
                   q-img(:src="`https://imageserver.eveonline.com/Character/${membre.id_perso.value}_256.jpg`")
                     .absolute-top.text-center {{ membre.nom_perso.value }}
