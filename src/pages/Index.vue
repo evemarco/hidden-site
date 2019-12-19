@@ -73,6 +73,45 @@
               flux-controls
             template(v-slot:pagination)
               flux-pagination
+      //- Section zKillboard
+      section.text-white
+        .self-center.inside-section
+          .text-center.size-titre(:style="`font-family: ${font_bouton}`") {{ titre_zkb }}
+          q-img(:src="fond_zkb" position="center center").qimg
+            //- div(:style="`font-family: ${font_texte_normal};`").size-texte.absolute-full.text-subtitle2.flex.flex-center.column
+            .row(v-html="descriptif_zkb").size-texte
+            .row
+              .col-12.text-center.size-texte
+                q-btn(flat).no-pointer-events Efficacité tués / pertes
+              .col-3.text-center
+                .size-texte Ships
+                q-circular-progress(show-value font-size="2vmin" :value="zkb.shipsDestroyed * 100 / ( zkb.shipsDestroyed + zkb.shipsLost )" size="12vmin" :thickness="0.3" color="positive" track-color="negative").q-ma-md.vertical-top {{ zkb.shipsDestroyed * 100 / ( zkb.shipsDestroyed + zkb.shipsLost ) | toFixed }}%
+              .col-3.text-center
+                .size-texte Points
+                q-circular-progress(show-value font-size="2vmin" :value="zkb.pointsDestroyed * 100 / ( zkb.pointsDestroyed + zkb.pointsLost )" size="12vmin" :thickness="0.3" color="positive" track-color="negative").q-ma-md.vertical-top {{ zkb.pointsDestroyed * 100 / ( zkb.pointsDestroyed + zkb.pointsLost ) | toFixed }}%
+              .col-3.text-center
+                .size-texte ISK
+                q-circular-progress(show-value font-size="2vmin" :value="zkb.iskDestroyed * 100 / ( zkb.iskDestroyed + zkb.iskLost )" size="12vmin" :thickness="0.3" color="positive" track-color="negative").q-ma-md.vertical-top {{ zkb.iskDestroyed * 100 / ( zkb.iskDestroyed + zkb.iskLost ) | toFixed }}%
+              .col-3.text-center
+                .size-texte Solo
+                q-circular-progress(show-value font-size="2vmin" :value="zkb.soloKills * 100 / ( zkb.soloKills + zkb.soloLosses )" size="12vmin" :thickness="0.3" color="positive" track-color="negative").q-ma-md.vertical-top {{ zkb.soloKills * 100 / ( zkb.soloKills + zkb.soloLosses ) | toFixed }}%
+            //- .row
+            //-   q-linear-progress(dark stripe rounded style="height: 20px" :value="zkb.dangerRatio / 100" color="primary" track-color="red")
+            .row
+              q-btn-group.full-width
+                q-btn(color="negative" :label="`${zkb.dangerRatio}%`" :style="`width: ${zkb.dangerRatio}%;`")
+                q-btn(color="positive" :label="`${100 - zkb.dangerRatio}%`" :style="`width: ${100 - zkb.dangerRatio}%;`")
+              .full-width.size-texte
+                span Dangereux
+                span.float-right Gentil
+            .row
+              q-btn-group.full-width
+                q-btn(color="negative" :label="`${zkb.gangRatio}%`" :style="`width: ${zkb.gangRatio}%;`")
+                q-btn(color="positive" :label="`${100 - zkb.gangRatio}%`" :style="`width: ${100 - zkb.gangRatio}%;`")
+              .full-width.size-texte
+                span Gangs
+                span.float-right Solo
+
     q-btn(no-caps flat unelevated :icon="mute ? 'volume_off' : 'volume_up'" @click="ytMute()").mute
     //- Bouton de copyright CCP
     q-btn(no-caps flat unelevated label="CCP Copyright Notice" @click="notice = true").copyright
@@ -176,6 +215,7 @@ section {
 
 .size-texte, .flux-caption-descriptif {
   font-size: 2vmin;
+  line-height: 2.4vmin;
 }
 
 .img-titre {
@@ -247,17 +287,28 @@ a:link, a:visited, a:hover, a:active {
   background: transparent !important;
   background-color: transparent !important;
 }
+
+.q-img__content > div {
+  position: relative;
+}
 </style>
 
 <script>
 import webFont from 'webfontloader'
 import * as FullPageScroll from 'responsive-fullpage-scroll/dist/fullpage-scroll'
 import { DeliveryClient } from '@kentico/kontent-delivery'
-import { VueFlux, FluxCaption, FluxControls, FluxPagination, FluxPreloader } from 'vue-flux'
+import {
+  VueFlux,
+  FluxCaption,
+  FluxControls,
+  FluxPagination,
+  FluxPreloader
+} from 'vue-flux'
 
 const deliveryClient = new DeliveryClient({
   projectId: '66e72765-32bf-0056-dae3-bb6d6dc6131f',
-  previewApiKey: 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogIjk0ZWZmMGJkNzJmOTQ0OTliYmVhNjYwN2E2MWYxY2U0IiwNCiAgImlhdCI6ICIxNTY5MzIxOTMyIiwNCiAgImV4cCI6ICIxOTE0OTIxOTMyIiwNCiAgInByb2plY3RfaWQiOiAiNjZlNzI3NjUzMmJmMDA1NmRhZTNiYjZkNmRjNjEzMWYiLA0KICAidmVyIjogIjEuMC4wIiwNCiAgImF1ZCI6ICJwcmV2aWV3LmRlbGl2ZXIua2VudGljb2Nsb3VkLmNvbSINCn0.OdNPgrvPBeRMiIT1vCy0LphwVcFhCbsB2otm9GT302M',
+  previewApiKey:
+    'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAianRpIjogIjk0ZWZmMGJkNzJmOTQ0OTliYmVhNjYwN2E2MWYxY2U0IiwNCiAgImlhdCI6ICIxNTY5MzIxOTMyIiwNCiAgImV4cCI6ICIxOTE0OTIxOTMyIiwNCiAgInByb2plY3RfaWQiOiAiNjZlNzI3NjUzMmJmMDA1NmRhZTNiYjZkNmRjNjEzMWYiLA0KICAidmVyIjogIjEuMC4wIiwNCiAgImF1ZCI6ICJwcmV2aWV3LmRlbGl2ZXIua2VudGljb2Nsb3VkLmNvbSINCn0.OdNPgrvPBeRMiIT1vCy0LphwVcFhCbsB2otm9GT302M',
   globalQueryConfig: {
     usePreviewMode: true // Queries the Delivery Preview API.
   }
@@ -271,6 +322,13 @@ export default {
     FluxControls,
     FluxPagination,
     FluxPreloader
+  },
+  filters: {
+    toFixed: function (value) {
+      if (!value) return 0
+      value = value.toFixed(2)
+      return value
+    }
   },
   data () {
     return {
@@ -289,6 +347,7 @@ export default {
       bouton_membres: '',
       bouton_recrutement: '',
       bouton_outils: '',
+      bouton_zkb: '',
       font_bouton: '',
       font_logo: '',
       font_sous_titre: '',
@@ -300,7 +359,20 @@ export default {
       player: {},
       mute: true,
       vfOptions: { autoplay: true, delay: 10000 },
-      vfTransitions: ['concentric', 'warp', 'round1', 'round2', 'wave', 'waterfall', 'zip', 'blinds2d', 'blocks1', 'blocks2', 'blinds3d', 'explode'],
+      vfTransitions: [
+        'concentric',
+        'warp',
+        'round1',
+        'round2',
+        'wave',
+        'waterfall',
+        'zip',
+        'blinds2d',
+        'blocks1',
+        'blocks2',
+        'blinds3d',
+        'explode'
+      ],
       activitesImages: [],
       activitesCaptions: [],
       outilsImages: [],
@@ -308,7 +380,12 @@ export default {
       recrutement_titre: '',
       recrutement_descriptif: '',
       recrutement_image_de_fond: '',
-      membres: new Map()
+      membres: new Map(),
+      titre_zkb: '',
+      descriptif_zkb: '',
+      fond_zkb: '',
+      id_corporation: 0,
+      zkb: {}
     }
   },
   methods: {
@@ -341,73 +418,93 @@ export default {
     }
   },
   created () {
-    deliveryClient.items().type('site').toPromise().then(response => {
-      let items = response.items[0]
-      this.$root.$emit('site', items)
-      this.font_bouton = items.font_bouton.value
-      this.font_logo = items.font_logo.value
-      this.font_sous_titre = items.font_sous_titre.value
-      this.font_texte_normal = items.font_texte_normal.value
-      let listeFonts = []
-      if (this.font_bouton) listeFonts.push(this.font_bouton)
-      if (this.font_logo) listeFonts.push(this.font_logo)
-      if (this.font_sous_titre) listeFonts.push(this.font_sous_titre)
-      if (this.font_texte_normal) listeFonts.push(this.font_texte_normal)
-      if (listeFonts.length > 0) {
-        webFont.load({
-          google: {
-            families: listeFonts
-          }
-        })
-      }
-      this.nom_corpo = items.nom_corpo.value
-      this.sous_titre = items.sous_titre.value
-      this.image_logo = items.image_logo.value[0].url
-      this.debut = items.debut.value
-      this.fin = items.fin.value
-      this.id_youtube = items.id_youtube.value
-      this.transparence = items.transparence.value
-      this.bouton_presentation = items.bouton_presentation.value
-      this.presentation = items.presentation.value
-      this.bouton_activites = items.bouton_activites.value
-      this.bouton_membres = items.bouton_membres.value
-      this.bouton_recrutement = items.bouton_recrutement.value
-      this.bouton_outils = items.bouton_outils.value
-      this.recrutement_titre = items.diapo__titre.value
-      this.recrutement_descriptif = items.diapo__descriptif.value
-      this.recrutement_image_de_fond = items.diapo__image_de_fond.value[0].url
-      for (const activite of items.activites.value) {
-        this.activitesImages.push(activite.diapo__image_de_fond.value[0].url)
-        this.activitesCaptions.push({
-          text: `${activite.diapo__titre.value}`,
-          desc: `${activite.diapo__descriptif.value}`
-        })
-      }
-      for (const outil of items.outils.value) {
-        this.outilsImages.push(outil.diapo__image_de_fond.value[0].url)
-        this.outilsCaptions.push({
-          text: `${outil.diapo__titre.value}`,
-          desc: `${outil.diapo__descriptif.value}`
-        })
-      }
-      let i = 0
-      for (const membre of items.membres.value) {
-        const r = Math.trunc(i / 6)
-        if (!this.membres.has(r)) this.membres.set(r, [])
-        let tab = this.membres.get(r)
-        tab.push(membre)
-        this.membres.set(r, tab)
-        i++
-      }
-      this.loaded = true
-    })
+    deliveryClient
+      .items()
+      .type('site')
+      .toPromise()
+      .then(response => {
+        let items = response.items[0]
+        console.log(items)
+        this.$root.$emit('site', items)
+        this.font_bouton = items.font_bouton.value
+        this.font_logo = items.font_logo.value
+        this.font_sous_titre = items.font_sous_titre.value
+        this.font_texte_normal = items.font_texte_normal.value
+        let listeFonts = []
+        if (this.font_bouton) listeFonts.push(this.font_bouton)
+        if (this.font_logo) listeFonts.push(this.font_logo)
+        if (this.font_sous_titre) listeFonts.push(this.font_sous_titre)
+        if (this.font_texte_normal) listeFonts.push(this.font_texte_normal)
+        if (listeFonts.length > 0) {
+          webFont.load({
+            google: {
+              families: listeFonts
+            }
+          })
+        }
+        this.nom_corpo = items.nom_corpo.value
+        this.sous_titre = items.sous_titre.value
+        this.image_logo = items.image_logo.value[0].url
+        this.debut = items.debut.value
+        this.fin = items.fin.value
+        this.id_youtube = items.id_youtube.value
+        this.transparence = items.transparence.value
+        this.bouton_presentation = items.bouton_presentation.value
+        this.presentation = items.presentation.value
+        this.bouton_activites = items.bouton_activites.value
+        this.bouton_membres = items.bouton_membres.value
+        this.bouton_recrutement = items.bouton_recrutement.value
+        this.bouton_outils = items.bouton_outils.value
+        this.recrutement_titre = items.diapo__titre.value
+        this.recrutement_descriptif = items.diapo__descriptif.value
+        this.recrutement_image_de_fond =
+          items.diapo__image_de_fond.value[0].url
+        for (const activite of items.activites.value) {
+          this.activitesImages.push(activite.diapo__image_de_fond.value[0].url)
+          this.activitesCaptions.push({
+            text: `${activite.diapo__titre.value}`,
+            desc: `${activite.diapo__descriptif.value}`
+          })
+        }
+        for (const outil of items.outils.value) {
+          this.outilsImages.push(outil.diapo__image_de_fond.value[0].url)
+          this.outilsCaptions.push({
+            text: `${outil.diapo__titre.value}`,
+            desc: `${outil.diapo__descriptif.value}`
+          })
+        }
+        let i = 0
+        for (const membre of items.membres.value) {
+          const r = Math.trunc(i / 6)
+          if (!this.membres.has(r)) this.membres.set(r, [])
+          let tab = this.membres.get(r)
+          tab.push(membre)
+          this.membres.set(r, tab)
+          i++
+        }
+        this.bouton_zkb = items.bouton_zkb.value
+        this.titre_zkb = items.titre_zkb.value
+        this.descriptif_zkb = items.descriptif_zkb.value
+        this.fond_zkb = items.fond_zkb.value[0].url
+        this.id_corporation = items.id_corporation.value
+        this.loaded = true
+        this.$axios
+          .get(
+            `https://zkillboard.com/api/stats/corporationID/${this.id_corporation}/`
+          )
+          .then(response => {
+            this.zkb = response.data
+          })
+      })
   },
   computed: {
     idYoutube () {
       if (this.id_youtube && this.player) return this.id_youtube
       else return ''
     },
-    noticeText () { return `EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP hf. has granted permission to ${this.host} to use EVE Online and all associated logos and designs for promotional and information purposes on its website but does not endorse, and is not in any way affiliated with, ${this.host}. CCP is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.` }
+    noticeText () {
+      return `EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights are reserved worldwide. All other trademarks are the property of their respective owners. EVE Online, the EVE logo, EVE and all associated logos and designs are the intellectual property of CCP hf. All artwork, screenshots, characters, vehicles, storylines, world facts or other recognizable features of the intellectual property relating to these trademarks are likewise the intellectual property of CCP hf. CCP hf. has granted permission to ${this.host} to use EVE Online and all associated logos and designs for promotional and information purposes on its website but does not endorse, and is not in any way affiliated with, ${this.host}. CCP is in no way responsible for the content on or functioning of this website, nor can it be liable for any damage arising from the use of this website.`
+    }
   },
   mounted () {
     let fps
@@ -418,7 +515,7 @@ export default {
         else if (event.keyCode === 40) fps.nextSlide()
       })
     })
-    this.$root.$on('goToSlide', (index) => {
+    this.$root.$on('goToSlide', index => {
       fps.goToSlide(index)
     })
   }

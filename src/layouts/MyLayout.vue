@@ -9,6 +9,7 @@
         q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 3)" :label="bouton_membres").on-right.orientation-landscape
         q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 4)" :label="bouton_recrutement").on-right.orientation-landscape
         q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 5)" :label="bouton_outils").on-right.orientation-landscape
+        q-btn(flat no-caps dense :style="`font-family: ${font_bouton}`" @click="$root.$emit('goToSlide', 6)" :label="bouton_zkb").on-right.orientation-landscape
         q-space
         q-btn(v-if="lien_discord" flat no-caps dense :style="`font-family: ${font_bouton}`" icon="img:/statics/discord.svg" label="Discord" @click="openURL(lien_discord)").on-left
         q-btn(v-if="lien_forum" flat no-caps dense :style="`font-family: ${font_bouton}`" icon="chat" @click="openURL(lien_forum)" label="Forum").on-left
@@ -39,6 +40,7 @@ export default {
       bouton_membres: '',
       bouton_recrutement: '',
       bouton_outils: '',
+      bouton_zkb: '',
       lien_discord: '',
       lien_forum: '',
       lien_eve_online: '',
@@ -57,6 +59,7 @@ export default {
       this.bouton_membres = items.bouton_membres.value
       this.bouton_recrutement = items.bouton_recrutement.value
       this.bouton_outils = items.bouton_outils.value
+      this.bouton_zkb = items.bouton_zkb.value
       this.lien_discord = items.lien_discord.value
       this.lien_forum = items.lien_forum.value
       this.lien_eve_online = items.lien_eve_online.value
@@ -73,9 +76,12 @@ export default {
 </script>
 
 <style lang="stylus">
-@font-face
-  font-family: eve
-  src: url(../statics/eve.ttf)
-.qheader
-  background-color: rgba(0, 0, 0, 0.8)
+@font-face {
+  font-family: eve;
+  src: url('../statics/eve.ttf');
+}
+
+.qheader {
+  background-color: rgba(0, 0, 0, 0.8);
+}
 </style>
