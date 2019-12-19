@@ -424,7 +424,7 @@ export default {
       .toPromise()
       .then(response => {
         let items = response.items[0]
-        console.log(items)
+        // console.log(items)
         this.$root.$emit('site', items)
         this.font_bouton = items.font_bouton.value
         this.font_logo = items.font_logo.value
