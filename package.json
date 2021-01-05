@@ -14,7 +14,7 @@
   "dependencies": {
     "@kentico/kontent-delivery": "^7.0.0",
     "@quasar/extras": "^1.9.3",
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "quasar": "^1.12.13",
     "responsive-fullpage-scroll": "^1.0.3",
     "rxjs": "^6.5.3",
